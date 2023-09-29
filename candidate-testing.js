@@ -18,36 +18,44 @@ let candidateAnswers = [];
 
 function askForName() {
   // TODO 1.1b: Ask for candidate's name //
-candidateName = input.question("Please enter your name: ");
+  candidateName = input.question("Please enter your name: ");
 }
 
 function askQuestion() {
   // TODO 1.2b: Ask candidate the question and assign the response as candidateAnswer //
-for (i = 0; i < questions.length; i++) {
-  candidateAnswers = input.question(`${questions[i]}`);
-  while (candidateAnswers === correctAnswers[i] || candidateAnswers != correctAnswers[i]) {
-    candidateAnswers.push();
+  for (i = 0;i < questions.length; i++) {
+    candidateAnswers.push(input.question(`${questions[i]}`));
   }
 }
-}
-
 function gradeQuiz(candidateAnswers) {
 
   // TODO 1.2c: Let the candidate know if they have answered the question correctly or incorrectly // 
-for (a = 0; a < questions.length; a++) {
-  console.log(`Your answer was ${candidateAnswers[a]}. The correct answer is ${correctAnswers[a]}`);
-}
-
-  let grade;  //TODO 3.2 use this variable to calculate the candidates score.
-
-
+  for (a = 0; a < questions.length; a++) {
+    console.log(`Your answer was ${candidateAnswers[a]}. The correct answer is ${correctAnswers[a]}.`);
+  }
+    
+  //TODO 3.2 use this variable to calculate the candidates score.
+  let candidateCorrectAnswers = [];
+  let grade = 0;
+  for (i = 0; i < questions.length; i++) {
+    if (candidateAnswers[i].toLowerCase() == correctAnswers[i].toLowerCase()) {
+      candidateCorrectAnswers.push(`${candidateAnswers[i]}`);
+      grade = (candidateCorrectAnswers.length / questions.length * 100);
+    }
+  }
+  
+  if (grade < 80) {
+    console.log(`Your grade was ${grade}%. ${candidateCorrectAnswers.length} out of 5 correct. You have failed the quiz.`);
+  } else {
+    console.log(`Your grade was ${grade}%. ${candidateCorrectAnswers.length} out of 5 correct. You have passed the quiz!`);
+  }
   return grade;
 }
 
 function runProgram() {
   askForName();
   // TODO 1.1c: Greet candidate using their name //
-   console.log("Hello, " + candidateName + "!");
+   console.log("Hello, " + candidateName.slice(0,1).toUpperCase() + candidateName.slice(1).toLowerCase() + "!");
   askQuestion();
   gradeQuiz(this.candidateAnswers);
 }
